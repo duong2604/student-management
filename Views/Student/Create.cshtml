@@ -1,0 +1,101 @@
+@* This view receives a single Student object as its Model *@
+@model MyWebApp.Models.Student
+
+@{
+    ViewData["Title"] = "Thêm sinh viên mới";
+}
+
+<h2 class="mb-4">Thêm sinh viên mới</h2>
+
+@* asp-route="StudentAddPost" → POST to /Admin/Student/Add *@
+<form asp-route="StudentAddPost" method="post" class="mt-3">
+
+    @* ── Name ──────────────────────────────────────── *@
+    <div class="form-group row mb-2">
+        <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Name" class="form-control" placeholder="Họ tên" />
+        </div>
+    </div>
+
+    @* ── Email ─────────────────────────────────────── *@
+    <div class="form-group row mb-2">
+        <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Email" class="form-control" placeholder="Email" />
+        </div>
+    </div>
+
+    @* ── Password ──────────────────────────────────── *@
+    <div class="form-group row mb-2">
+        <label asp-for="Password" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Password" type="password" class="form-control" placeholder="Mật khẩu" />
+        </div>
+    </div>
+
+    @* ── Branch (dropdown select) ──────────────────── *@
+    <div class="form-group row mb-2">
+        <label asp-for="Branch" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            @* asp-items reads from ViewBag.AllBranches set in the controller *@
+            <select asp-for="Branch" asp-items="ViewBag.AllBranches"
+                    class="form-select">
+                <option value="">-- Chọn ngành --</option>
+            </select>
+        </div>
+    </div>
+
+    @* ── IsRegular (checkbox) ──────────────────────── *@
+    <div class="form-group row mb-2">
+        <label asp-for="IsRegular" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10 d-flex align-items-center">
+            <input asp-for="IsRegular" type="checkbox" class="form-check-input" />
+            <span class="ms-2 text-muted" style="font-size:0.9em">Chính quy</span>
+        </div>
+    </div>
+
+    @* ── DateOfBorth ───────────────────────────────── *@
+    <div class="form-group row mb-2">
+        <label asp-for="DateOfBorth" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="DateOfBorth" type="date" class="form-control" />
+        </div>
+    </div>
+
+    @* ── Gender (radio buttons) ────────────────────── *@
+    <div class="form-group row mb-2">
+        <label asp-for="Gender" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            @* ViewBag.AllGenders is a List<Gender> loaded by the controller *@
+            @foreach (var gender in ViewBag.AllGenders)
+            {
+                <label class="form-check-label me-3">
+                    <input type="radio"
+                           asp-for="Gender"
+                           value="@gender"
+                           id="Gender_@gender"
+                           class="form-check-input" />
+                    @gender   @* shows "Male" or "Female" *@
+                </label>
+            }
+        </div>
+    </div>
+
+    @* ── Address (textarea) ────────────────────────── *@
+    <div class="form-group row mb-3">
+        <label asp-for="Address" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <textarea asp-for="Address" class="form-control" placeholder="Địa chỉ" rows="3"></textarea>
+        </div>
+    </div>
+
+    @* ── Submit button ─────────────────────────────── *@
+    <div class="form-group row">
+        <div class="col-sm-10 offset-sm-2">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-route="StudentList" class="btn btn-secondary ms-2">Quay lại</a>
+        </div>
+    </div>
+
+</form>
